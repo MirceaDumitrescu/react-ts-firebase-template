@@ -13,10 +13,8 @@
     "prepare": "husky install"
   },
   "lint-staged": {
-    "*.tsx *.ts": [
-      "eslint",
-      "prettier --write"
-    ]
+    "*": "format",
+    "*.ts": "eslint --fix"
   },
   "husky": {
     "hooks": {
