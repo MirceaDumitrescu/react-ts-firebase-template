@@ -4,7 +4,7 @@ import DataLayerComponent from './store/DataLayer';
 import PublicRoutes from './routes/routes';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-
+const test = false;
 root.render(
   <DataLayerComponent>
     <PublicRoutes />

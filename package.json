@@ -12,14 +12,18 @@
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
     "prepare": "husky install"
   },
-  "lint-staged": {
-    "*": "format",
-    "*.ts": "eslint --fix"
-  },
   "husky": {
     "hooks": {
-      "pre-commit": "npx run lint-staged"
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css}": [
+      "prettier --write",
+      "eslint --fix src/",
+      "tslint --fix --project .",
+      "git add"
+    ]
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.3",
