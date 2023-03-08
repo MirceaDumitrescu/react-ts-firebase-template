@@ -1,10 +1,12 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
 import './index.css';
+import DataLayerComponent from './store/DataLayer';
+import PublicRoutes from './routes/routes';
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+
+root.render(
+  <DataLayerComponent>
+    <PublicRoutes />
+  </DataLayerComponent>
 );
