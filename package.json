@@ -13,15 +13,27 @@
     "prepare": "husky install"
   },
   "lint-staged": {
-    "*.js": [
+    "*.tsx *.ts": [
       "eslint",
       "prettier --write"
     ]
   },
   "dependencies": {
+    "@types/jest": "^29.4.0",
     "@types/react-router-dom": "^5.3.3",
+    "@types/react-test-renderer": "^18.0.0",
+    "babel-jest": "^29.5.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "isomorphic-fetch": "^3.0.0",
+    "jest-environment-jsdom": "^29.5.0",
+    "jest-fetch-mock": "^3.0.3",
+    "lint-staged": "^13.1.2",
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.41",
+    "postcss": "^8.4.21",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "sass": "^1.58.3"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",
@@ -33,6 +45,8 @@
     "eslint-config-prettier": "^8.7.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
+    "husky": "^8.0.3",
+    "jest": "^29.5.0",
     "prettier": "^2.8.4",
     "typescript": "^4.9.3",
     "vite": "^4.1.0"

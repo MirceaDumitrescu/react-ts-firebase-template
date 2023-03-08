@@ -24,8 +24,9 @@ module.exports = {
   "rules": {
     "react/react-in-jsx-scope": "off",
     'react/jsx-filename-extension': [2, { 'extensions': ['.js', '.jsx', '.ts', '.tsx'] }],
-},
-      "settings": {
+    'prettier/prettier': 0
+  },
+  "settings": {
     "react": {
       "version": "detect"
     }
