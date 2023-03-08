@@ -18,6 +18,11 @@
       "prettier --write"
     ]
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npx run lint-staged"
+    }
+  },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.3",
     "@types/jest": "^29.4.0",
