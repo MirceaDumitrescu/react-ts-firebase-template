@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { setData } from './store/actions/globalState';
 import { useSelector } from 'react-redux';
-import handleSubmit from './api/test/test';
+import handleSubmit from './api/actions/actions';
 import { useRef } from 'react';
 import React from 'react';
 interface GlobalState {
