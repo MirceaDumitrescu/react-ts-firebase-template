@@ -35,6 +35,7 @@ function App() {
 
   useEffect(() => {
     setState(globalState.globalState);
+    console.log(globalState);
   }, [globalState]);
 
   const addMockData = () => {
@@ -54,9 +55,9 @@ function App() {
         <button type="submit">Save</button>
       </form>
       <button onClick={addMockData}>Add stuff to state</button>
-      <p>isLoading: {String(state.isLoading)}</p>
-      <p>hasError: {String(state.hasError)}</p>
-      {state.data &&
+      <p>isLoading: {String(state?.isLoading)}</p>
+      <p>hasError: {String(state?.hasError)}</p>
+      {state?.data &&
         state.data.map((el, idx) => {
           return <p key={idx}>{el}</p>;
         })}
