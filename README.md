@@ -3,12 +3,12 @@
 This is a simple template using Vite to Create a REACT application with Typescript. Backend is provided by firebase.
 
 ## FEATURES:
+
 - eslint
 - prettier
 - jest
 - husky
 - lint-staged
-
 
 ### eslint
 
