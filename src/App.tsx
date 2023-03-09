@@ -13,7 +13,7 @@ interface GlobalState {
 }
 
 function App() {
-  const globalState = useSelector((state: GlobalState) => state);
+  const globalState = useSelector((state: any) => state);
   const dispatch = useDispatch();
   const [state, setState] = useState<GlobalState>({
     data: [],
@@ -21,18 +21,17 @@ function App() {
     isLoading: false
   });
 
+  const dataRef = useRef<HTMLInputElement>(null);
 
-  const dataRef = useRef<HTMLInputElement>(null)
-
-  const submithandler: React.FormEventHandler<HTMLFormElement> = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const submithandler: React.FormEventHandler<HTMLFormElement> = (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
+    e.preventDefault();
     if (dataRef.current?.value) {
-      handleSubmit(dataRef.current.value)
-      dataRef.current.value = ""
+      handleSubmit(dataRef.current.value);
+      dataRef.current.value = '';
     }
-  }
-
-
+  };
 
   useEffect(() => {
     setState(globalState.globalState);
