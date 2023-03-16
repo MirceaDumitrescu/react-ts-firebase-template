@@ -1,11 +1,10 @@
 import './App.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { setData } from './store/actions/globalState';
-import { useSelector } from 'react-redux';
 import handleSubmit from './api/actions/actions';
 import { useRef } from 'react';
 import React from 'react';
+import { setData } from './store/slices/users';
 interface GlobalState {
   hasError: boolean;
   data: string[];
@@ -35,7 +34,7 @@ function App() {
 
   useEffect(() => {
     setState(globalState.globalState);
-    console.log(globalState);
+    console.log('state', globalState);
   }, [globalState]);
 
   const addMockData = () => {

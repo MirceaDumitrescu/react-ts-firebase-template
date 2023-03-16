@@ -10,7 +10,13 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "eslint:recommended", "plugin:react/recommended", "plugin:prettier/recommended"
   ],
-  "overrides": [
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx'],
+      rules: {
+        'no-undef': 'off',
+      },
+    },
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {

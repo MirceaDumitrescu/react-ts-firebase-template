@@ -1,7 +1,6 @@
 import { configureStore, PreloadedState } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
-import globalState from './actions/globalState';
-
+import globalState from './slices/users';
 const rootReducer = combineReducers({
   globalState
 });
