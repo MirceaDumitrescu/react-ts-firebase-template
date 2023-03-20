@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
-import { FormProps, FormConfig} from './formInterface';
+import { FormProps, FormConfig } from './formInterface';
 
-const FormGenerator = (props:FormProps) => {
+const FormGenerator = (props: FormProps) => {
   const {
     register,
     handleSubmit,
@@ -25,19 +25,13 @@ const FormGenerator = (props:FormProps) => {
               data-testid={config.name}
             />
             {errors[config.name]?.type === 'required' && (
-              <span role="alert">
-                This field is required!
-              </span>
+              <span role="alert">This field is required!</span>
             )}
             {errors[config.name]?.type === 'minLength' && (
-              <span role="alert">
-                Password cannot be shorter than 8 characters!
-              </span>
+              <span role="alert">Password cannot be shorter than 8 characters!</span>
             )}
             {errors[config.name]?.type === 'maxLength' && (
-              <span role="alert" >
-                Password cannot be longer than 20 characters!
-              </span>
+              <span role="alert">Password cannot be longer than 20 characters!</span>
             )}
           </div>
         ))}

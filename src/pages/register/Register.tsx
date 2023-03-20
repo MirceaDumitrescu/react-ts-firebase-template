@@ -7,14 +7,12 @@ export interface RegisterUserData {
   phone: string;
 }
 
-
 const Register = () => {
+  return (
+    <div>
+      <h1>Register</h1>
+    </div>
+  );
+};
 
-    return(
-        <div>
-            <h1>Register</h1>
-        </div>
-    )
-}
-
-export default Register
+export default Register;

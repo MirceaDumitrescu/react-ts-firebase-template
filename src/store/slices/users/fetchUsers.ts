@@ -2,7 +2,7 @@ import { firestore } from '../../../api/firebase/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { GlobalState } from '.';
-import {auth} from '../../../api/firebase/firebase';
+import { auth } from '../../../api/firebase/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 
 // These are the data types for the user profile
@@ -33,23 +33,22 @@ export const fetchData = createAsyncThunk(
 );
 
 export const fetchSignedInUSer = createAsyncThunk(
-  'data/fetchSignedInUSer', 
+  'data/fetchSignedInUSer',
   async (): Promise<Partial<GlobalState>> => {
-    const data:any = [];
-    try{
-        onAuthStateChanged(auth, (user) => {
-          if(user){
-            data.push(user)
-            console.log('User is signed in')
-          } 
-          else {
-            console.log('User is not signed in')
-          }
-          return data;
+    const data: any = [];
+    try {
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          data.push(user);
+          console.log('User is signed in');
+        } else {
+          console.log('User is not signed in');
+        }
+        return data;
+      });
+    } catch (err) {
+      console.log(err);
     }
-)} catch (err) {
-    console.log(err);
+    return data;
   }
-  return data;
-})
-
+);

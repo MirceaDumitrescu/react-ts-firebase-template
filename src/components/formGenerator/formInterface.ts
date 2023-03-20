@@ -9,9 +9,5 @@ export interface FormConfig {
 
 export interface FormProps {
   formConfig: FormConfig[];
-  onSubmit: CallableFunction
+  onSubmit: CallableFunction;
 }
-
-
-
-

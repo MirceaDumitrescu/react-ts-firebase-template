@@ -1,16 +1,16 @@
-import React from 'react'
+import React from 'react';
 
 export interface LoginUserData {
-    email: string;
-    password: string;
-  }
-
-const Login = ()   => {
-    return (
-        <div>
-        <h1>Login</h1>
-        </div>
-    )
+  email: string;
+  password: string;
 }
 
-export default Login
+const Login = () => {
+  return (
+    <div>
+      <h1>Login</h1>
+    </div>
+  );
+};
+
+export default Login;
