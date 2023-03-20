@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form';
 
-
- interface FormConfig {
+interface FormConfig {
   name: string;
   type: string;
   className: string;
@@ -10,7 +9,7 @@ import { useForm } from 'react-hook-form';
   validation: object;
 }
 
- interface FormProps {
+interface FormProps {
   formConfig: FormConfig[];
   onSubmit: CallableFunction;
 }

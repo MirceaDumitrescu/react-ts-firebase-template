@@ -46,56 +46,62 @@ const slice = createSlice({
       });
 
     // fetchSignedInUSer from firebase Auth extraReducers
-    builder.addCase(fetchSignedInUser.pending, (state: Partial<GlobalState>, _)=>{
+    builder.addCase(fetchSignedInUser.pending, (state: Partial<GlobalState>, _) => {
       state.isLoading = true;
-    })
+    });
 
-    builder.addCase(fetchSignedInUser.fulfilled,
+    builder.addCase(
+      fetchSignedInUser.fulfilled,
       (state: Partial<GlobalState>, action: PayloadAction<Partial<GlobalState>>) => {
         console.log('action', action);
         state.isLoading = false;
         state.data = action.payload;
-      } )
+      }
+    );
 
-      builder.addCase(fetchSignedInUser.rejected, 
-       (state: Partial<GlobalState>,_)=>{
-        state.hasError = true;
+    builder.addCase(fetchSignedInUser.rejected, (state: Partial<GlobalState>, _) => {
+      state.hasError = true;
+      state.isLoading = false;
+    });
+
+    //  registerUser extraReducers using firebaseAuth email&password
+    builder.addCase(registerUser.pending, (state: Partial<GlobalState>, _) => {
+      state.isLoading = true;
+    });
+
+    builder.addCase(
+      registerUser.fulfilled,
+      (state: Partial<GlobalState>, action: PayloadAction<Partial<GlobalState>>) => {
+        console.log('action', action);
         state.isLoading = false;
-       } )
+        state.data = action.payload;
+      }
+    );
 
-      //  registerUser extraReducers using firebaseAuth email&password
-     builder.addCase(registerUser.pending, (state: Partial<GlobalState>, _)=>{
-       state.isLoading=true;
-     })
-
-     builder.addCase(registerUser.fulfilled,(state: Partial<GlobalState>, action: PayloadAction<Partial<GlobalState>>) => {
-console.log('action', action);
-state.isLoading = false;
-state.data = action.payload;
-     })
-
-     builder.addCase(registerUser.rejected, (state: Partial<GlobalState>,_)=>{
-        state.hasError = true;
-        state.isLoading = false;
-     })
-
+    builder.addCase(registerUser.rejected, (state: Partial<GlobalState>, _) => {
+      state.hasError = true;
+      state.isLoading = false;
+    });
 
     //  signInUser extraReducers using firebaseAuth email&password
-    builder.addCase(signInUser.pending, (state: Partial<GlobalState>, _)=>{
-      state.isLoading=true;
-    })
+    builder.addCase(signInUser.pending, (state: Partial<GlobalState>, _) => {
+      state.isLoading = true;
+    });
 
-    builder.addCase(signInUser.fulfilled,(state: Partial<GlobalState>, action: PayloadAction<Partial<GlobalState>>) => {
-console.log('action', action);
-state.isLoading = false;
-state.data = action.payload;
-    })
-    
-    builder.addCase(signInUser.rejected, (state: Partial<GlobalState>,_)=>{
-        state.hasError = true;
+    builder.addCase(
+      signInUser.fulfilled,
+      (state: Partial<GlobalState>, action: PayloadAction<Partial<GlobalState>>) => {
+        console.log('action', action);
         state.isLoading = false;
-    })
+        state.data = action.payload;
+      }
+    );
 
-  }});
+    builder.addCase(signInUser.rejected, (state: Partial<GlobalState>, _) => {
+      state.hasError = true;
+      state.isLoading = false;
+    });
+  }
+});
 export default slice.reducer;
 export const { setData } = slice.actions;

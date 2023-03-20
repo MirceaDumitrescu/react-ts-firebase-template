@@ -18,10 +18,10 @@ interface UserProfile {
 export const fetchData = createAsyncThunk(
   'data/fetchData',
   async (): Promise<Partial<GlobalState>> => {
-    const data:any = [];
+    const data: any = [];
     try {
       const querySnapshot = await getDocs(collection(firestore, 'test_data'));
-      querySnapshot.forEach((doc:any) => {
+      querySnapshot.forEach((doc: any) => {
         data.push({ id: doc.id, ...doc.data() });
       });
       return data;
@@ -35,9 +35,9 @@ export const fetchData = createAsyncThunk(
 export const fetchSignedInUser = createAsyncThunk(
   'data/fetchSignedInUser',
   async (): Promise<Partial<GlobalState>> => {
-    const data:any = [];
+    const data: any = [];
     try {
-       onAuthStateChanged(auth, (user) => {
+      onAuthStateChanged(auth, (user) => {
         if (user) {
           data.push(user);
         } else {

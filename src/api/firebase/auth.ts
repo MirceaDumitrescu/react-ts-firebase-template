@@ -3,12 +3,12 @@ import { auth } from './firebase';
 import { LoginUserData } from '../../pages/login/Login';
 import { RegisterUserData } from '../../pages/register/Register';
 // Create a new user and automatically login the new registered user
-export const  createUser =async (
+export const createUser = async (
   formData: RegisterUserData,
   setUserCredentials: CallableFunction
 ) => {
   // Register a new user using email/pass sign in option
- await createUserWithEmailAndPassword(auth, formData.email, formData.password)
+  await createUserWithEmailAndPassword(auth, formData.email, formData.password)
     .then(() => {
       setUserCredentials(formData);
       return formData;
