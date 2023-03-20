@@ -1,5 +1,19 @@
 import { useForm } from 'react-hook-form';
-import { FormProps, FormConfig } from './formInterface';
+
+
+ interface FormConfig {
+  name: string;
+  type: string;
+  className: string;
+  value: string;
+  placeholder: string;
+  validation: object;
+}
+
+ interface FormProps {
+  formConfig: FormConfig[];
+  onSubmit: CallableFunction;
+}
 
 const FormGenerator = (props: FormProps) => {
   const {
@@ -22,7 +36,6 @@ const FormGenerator = (props: FormProps) => {
               value={config.value}
               placeholder={config.placeholder}
               {...register(config.name, config.validation)}
-              data-testid={config.name}
             />
             {errors[config.name]?.type === 'required' && (
               <span role="alert">This field is required!</span>

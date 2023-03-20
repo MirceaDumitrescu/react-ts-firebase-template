@@ -3,17 +3,15 @@ import { auth } from './firebase';
 import { LoginUserData } from '../../pages/login/Login';
 import { RegisterUserData } from '../../pages/register/Register';
 // Create a new user and automatically login the new registered user
-export const createUser = (
-  email: string,
-  password: string,
+export const  createUser =async (
   formData: RegisterUserData,
   setUserCredentials: CallableFunction
 ) => {
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredentials) => {
+  // Register a new user using email/pass sign in option
+ await createUserWithEmailAndPassword(auth, formData.email, formData.password)
+    .then(() => {
       setUserCredentials(formData);
-      console.log(userCredentials.user);
-      console.log(formData);
+      return formData;
     })
     .catch((error) => {
       console.log(error.message);
@@ -21,10 +19,11 @@ export const createUser = (
 };
 
 // Login an existing user
-export const logInUser = (formData: LoginUserData, setUserCredentials: CallableFunction) => {
-  signInWithEmailAndPassword(auth, formData.email, formData.password)
+export const logInUser = async (formData: LoginUserData, setUserCredentials: CallableFunction) => {
+  await signInWithEmailAndPassword(auth, formData.email, formData.password)
     .then((userCredential) => {
       setUserCredentials(userCredential.user);
+      return userCredential.user;
     })
     .catch((error) => {
       console.log(error.message);
