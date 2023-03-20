@@ -1,17 +1,16 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { GlobalState } from '.';
+import { User } from 'firebase/auth';
 import { logInUser } from '../../../api/firebase/auth';
 import { createUser } from '../../../api/firebase/auth';
-import { setData } from './index';
+import { LoginUserData } from '../../../pages/login/Login';
+import { RegisterUserData } from '../../../pages/register/Register';
 
 export const signInUser = createAsyncThunk(
   'data/signInUser',
-  async (): Promise<Partial<GlobalState>> => {
-    const data: any = [];
+  async (data: LoginUserData): Promise<Partial<User | void>> => {
     try {
-      const loggedUser = logInUser(data, data);
-      data.push(loggedUser);
-      return data;
+      const loggedUser = logInUser(data);
+      return loggedUser;
     } catch (err) {
       console.log(err);
     }
@@ -21,12 +20,10 @@ export const signInUser = createAsyncThunk(
 
 export const registerUser = createAsyncThunk(
   'data/registerUser',
-  async (): Promise<Partial<GlobalState>> => {
-    const data: any = [];
+  async (data: RegisterUserData): Promise<Partial<RegisterUserData | void>> => {
     try {
-      const registeredUser = createUser(data, data);
-      data.push(registeredUser);
-      return data;
+      const registeredUser = createUser(data);
+      return registeredUser;
     } catch (err) {
       console.log(err);
     }
