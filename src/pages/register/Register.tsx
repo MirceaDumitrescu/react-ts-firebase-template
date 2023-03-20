@@ -1,8 +1,8 @@
-import FormGenerator from "../../components/formGenerator/FormGenerator";
-import { RegisterFormConfig } from "./RegisterFormConfig";
-import { registerUser } from "../../store/slices/users/loginRegisterUser";
-import { createUser } from "../../api/firebase/auth";
-import { create } from "react-test-renderer";
+import FormGenerator from '../../components/formGenerator/FormGenerator';
+import { RegisterFormConfig } from './RegisterFormConfig';
+import { registerUser } from '../../store/slices/users/loginRegisterUser';
+import { createUser } from '../../api/firebase/auth';
+import { create } from 'react-test-renderer';
 
 export interface RegisterUserData {
   firstName: string;

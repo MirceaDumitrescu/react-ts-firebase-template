@@ -23,12 +23,11 @@ const FormGenerator = (props: FormProps) => {
     watch
   } = useForm();
 
-
   const fieldWatched = watch();
 
   const onSubmit = (data: any) => {
-    data={...fieldWatched}
-    console.log(data)
+    data = { ...fieldWatched };
+    console.log(data);
     props.onSubmit(data);
     return data;
   };
@@ -42,7 +41,7 @@ const FormGenerator = (props: FormProps) => {
               type={config.type}
               className={config.className}
               placeholder={config.placeholder}
-              value = {config.value}
+              value={config.value}
               {...register(config.name, config.validation)}
             />
             {errors[config.name]?.type === 'required' && (

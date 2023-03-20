@@ -38,9 +38,11 @@ function App() {
   //   setState(globalState.globalState);
   // }, [globalState]);
 
-  return <div className="App">
-    <Register/>
-    </div>;
+  return (
+    <div className="App">
+      <Register />
+    </div>
+  );
 }
 
 export default App;
