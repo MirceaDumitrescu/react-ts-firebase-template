@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { User } from 'firebase/auth';
 import { fetchData } from './fetchUsers';
 
-export interface GlobalState {
-  data: any;
+export interface TUsers {
+  data: User[];
   isLoading: boolean;
   hasError: boolean;
 }
@@ -27,17 +28,17 @@ const slice = createSlice({
     })
   },
   extraReducers(builder) {
-    builder.addCase(fetchData.pending, (state: Partial<GlobalState>, _) => {
+    builder.addCase(fetchData.pending, (state: Partial<TUsers>, _) => {
       state.isLoading = true;
     }),
-      builder.addCase(
-        fetchData.fulfilled,
-        (state: Partial<GlobalState>, action: PayloadAction<Partial<GlobalState>>) => {
-          state.isLoading = false;
-          state.data = action.payload;
-        }
-      ),
-      builder.addCase(fetchData.rejected, (state: Partial<GlobalState>, _) => {
+      // builder.addCase(
+      //   fetchData.fulfilled,
+      //   (state: Partial<TUsers>, action: PayloadAction<Partial<TUsers>>) => {
+      //     state.isLoading = false;
+      //     state.data = action.payload;
+      //   }
+      // ),
+      builder.addCase(fetchData.rejected, (state: Partial<TUsers>, _) => {
         state.hasError = true;
         state.isLoading = false;
       });
