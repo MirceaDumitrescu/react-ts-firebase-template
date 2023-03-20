@@ -1,11 +1,12 @@
 import { useForm } from 'react-hook-form';
+import handleSubmit from '../../api/actions/actions';
 
 interface FormConfig {
   name: string;
   type: string;
   className: string;
-  value: string;
   placeholder: string;
+  value?: string;
   validation: object;
 }
 
@@ -22,18 +23,26 @@ const FormGenerator = (props: FormProps) => {
     watch
   } = useForm();
 
+
   const fieldWatched = watch();
+
+  const onSubmit = (data: any) => {
+    data={...fieldWatched}
+    console.log(data)
+    props.onSubmit(data);
+    return data;
+  };
 
   return (
     <div className="container">
-      <form className="form" onSubmit={handleSubmit(() => props.onSubmit(fieldWatched))}>
+      <form className="form" onSubmit={handleSubmit(onSubmit)}>
         {props.formConfig.map((config: FormConfig) => (
           <div key={config.name} className="form__group">
             <input
               type={config.type}
               className={config.className}
-              value={config.value}
               placeholder={config.placeholder}
+              value = {config.value}
               {...register(config.name, config.validation)}
             />
             {errors[config.name]?.type === 'required' && (

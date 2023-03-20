@@ -1,4 +1,6 @@
 import './App.css';
+import Login from './pages/login/Login';
+import Register from './pages/register/Register';
 // import { useDispatch, useSelector } from 'react-redux';
 // import { useState, useEffect } from 'react';
 // import handleSubmit from './api/actions/actions';
@@ -36,7 +38,9 @@ function App() {
   //   setState(globalState.globalState);
   // }, [globalState]);
 
-  return <div className="App"></div>;
+  return <div className="App">
+    <Register/>
+    </div>;
 }
 
 export default App;
