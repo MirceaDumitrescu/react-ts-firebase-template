@@ -1,12 +1,12 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from './firebase';
-import { CreateUserData, LoginUserData } from '../../utils/interfaces';
-
+import { LoginUserData } from '../../pages/login/Login';
+import { RegisterUserData } from '../../pages/register/Register';
 // Create a new user and automatically login the new registered user
 export const createUser = (
   email: string,
   password: string,
-  formData: CreateUserData,
+  formData: RegisterUserData,
   setUserCredentials: CallableFunction
 ) => {
   createUserWithEmailAndPassword(auth, email, password)

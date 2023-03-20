@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
-import { FormConfig } from './interfaces';
+import { FormProps, FormConfig} from './formInterface';
 
-const FormGenerator = (props: FormConfig[], onSubmit: CallableFunction) => {
+const FormGenerator = (props:FormProps) => {
   const {
     register,
     handleSubmit,
@@ -13,9 +13,9 @@ const FormGenerator = (props: FormConfig[], onSubmit: CallableFunction) => {
 
   return (
     <div className="container">
-      <form className="form" onSubmit={handleSubmit(() => onSubmit(fieldWatched))}>
-        {props.map((config: FormConfig) => (
-          <div key={config.name} className="form-group">
+      <form className="form" onSubmit={handleSubmit(() => props.onSubmit(fieldWatched))}>
+        {props.formConfig.map((config: FormConfig) => (
+          <div key={config.name} className="form__group">
             <input
               type={config.type}
               className={config.className}
@@ -25,17 +25,17 @@ const FormGenerator = (props: FormConfig[], onSubmit: CallableFunction) => {
               data-testid={config.name}
             />
             {errors[config.name]?.type === 'required' && (
-              <span role="alert" data-testid="form-error">
+              <span role="alert">
                 This field is required!
               </span>
             )}
             {errors[config.name]?.type === 'minLength' && (
-              <span role="alert" data-testid="form-error">
+              <span role="alert">
                 Password cannot be shorter than 8 characters!
               </span>
             )}
             {errors[config.name]?.type === 'maxLength' && (
-              <span role="alert" data-testid="form-error">
+              <span role="alert" >
                 Password cannot be longer than 20 characters!
               </span>
             )}
