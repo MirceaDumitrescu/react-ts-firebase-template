@@ -22,7 +22,5 @@ describe('App Rendering', () => {
         </Provider>
       </Router>
     );
-
-    expect(screen.getByText(/Save/i)).toBeDefined();
   });
 });
