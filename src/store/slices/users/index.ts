@@ -33,7 +33,6 @@ const slice = createSlice({
       builder.addCase(
         fetchData.fulfilled,
         (state: Partial<GlobalState>, action: PayloadAction<Partial<GlobalState>>) => {
-          console.log('action', action);
           state.isLoading = false;
           state.data = action.payload;
         }
