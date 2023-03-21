@@ -1,3 +1,9 @@
+import FormGenerator from '../../components/formGenerator/FormGenerator';
+import { RegisterFormConfig } from './RegisterFormConfig';
+import { registerUser } from '../../store/slices/users/loginRegisterUser';
+import { createUser } from '../../api/firebase/auth';
+import { create } from 'react-test-renderer';
+
 export interface RegisterUserData {
   firstName: string;
   lastName: string;
@@ -10,7 +16,7 @@ export interface RegisterUserData {
 const Register = () => {
   return (
     <div>
-      <h1>Register</h1>
+      <FormGenerator formConfig={RegisterFormConfig} onSubmit={createUser} />
     </div>
   );
 };

@@ -1,3 +1,8 @@
+import React from 'react';
+import FormGenerator from '../../components/formGenerator/FormGenerator';
+import { loginFormConfig } from './loginFormConfig';
+import { signInUser } from '../../store/slices/users/loginRegisterUser';
+
 export interface LoginUserData {
   email: string;
   password: string;
@@ -6,7 +11,7 @@ export interface LoginUserData {
 const Login = () => {
   return (
     <div>
-      <h1>Login</h1>
+      <FormGenerator formConfig={loginFormConfig} onSubmit={signInUser} />
     </div>
   );
 };
