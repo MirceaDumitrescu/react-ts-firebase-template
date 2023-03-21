@@ -26,13 +26,5 @@ export const RegisterFormConfig = [
     className: 'form__group__input',
     placeholder: 'Enter your last name',
     validation: { required: true }
-  },
-  {
-    name: 'button',
-    className: 'form__group__button',
-    type: 'submit',
-    value: 'Register',
-    placeholder: 'Register',
-    validation: { required: '' }
   }
 ];

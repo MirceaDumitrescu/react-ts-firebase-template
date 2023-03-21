@@ -4,18 +4,20 @@ import { combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import { FC } from 'react';
 import React from 'react';
-import globalState from './slices/users';
-
+import usersReducer from './slices/users/usersSlice';
+import authReducer from './slices/users/authSlice';
 type Props = {
   children: React.ReactNode;
 };
 
 const reducer = combineReducers({
-  globalState
+  users: usersReducer,
+  user: authReducer
 });
 
 export const store = configureStore({
-  reducer
+  reducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware()
 });
 
 const DataLayerComponent: FC<Props> = ({ children }) => {

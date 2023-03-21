@@ -12,13 +12,5 @@ export const loginFormConfig = [
     type: 'password',
     placeholder: 'Enter your password',
     validation: { required: true }
-  },
-  {
-    name: 'button',
-    className: 'form__group__button',
-    type: 'button',
-    value: 'Login',
-    placeholder: 'Login',
-    validation: { required: '' }
   }
 ];

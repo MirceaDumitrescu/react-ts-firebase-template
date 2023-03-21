@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch } from '../hooks/global';
-import { fetchData } from '../store/slices/users/fetchUsers';
+import { fetchUserArray } from '../store/slices/users/usersService';
+
 const AppRunner = (): JSX.Element => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchData());
+    dispatch(fetchUserArray());
   }, []);
 
   return <React.Fragment />;

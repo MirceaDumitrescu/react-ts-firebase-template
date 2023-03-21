@@ -1,8 +1,7 @@
 import FormGenerator from '../../components/formGenerator/FormGenerator';
-import { RegisterFormConfig } from './RegisterFormConfig';
-import { registerUser } from '../../store/slices/users/loginRegisterUser';
-import { createUser } from '../../api/firebase/auth';
-import { create } from 'react-test-renderer';
+import { RegisterFormConfig } from './register.config';
+import { registerUser } from '../../store/slices/users/authService';
+import { useAppDispatch } from '../../hooks/global';
 
 export interface RegisterUserData {
   firstName: string;
@@ -14,9 +13,15 @@ export interface RegisterUserData {
 }
 
 const Register = () => {
+  const dispatch = useAppDispatch();
+
+  const handleOnSubmit = async (data: RegisterUserData) => {
+    dispatch(registerUser(data));
+  };
+
   return (
     <div>
-      <FormGenerator formConfig={RegisterFormConfig} onSubmit={createUser} />
+      <FormGenerator formConfig={RegisterFormConfig} onSubmit={handleOnSubmit} />
     </div>
   );
 };

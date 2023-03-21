@@ -1,21 +1,22 @@
 import { useForm } from 'react-hook-form';
-import handleSubmit from '../../api/actions/actions';
 
-interface FormConfig {
-  name: string;
+interface TConfig {
+  label?: string;
   type: string;
-  className: string;
-  placeholder: string;
+  name: string;
   value?: string;
-  validation: object;
+  placeholder?: string;
+  validation?: any;
+  disabled?: boolean;
+  className?: string;
 }
 
 interface FormProps {
-  formConfig: FormConfig[];
-  onSubmit: CallableFunction;
+  formConfig: TConfig[];
+  onSubmit: (data: any) => void;
 }
 
-const FormGenerator = (props: FormProps) => {
+const FormGenerator = ({ formConfig, onSubmit }: FormProps) => {
   const {
     register,
     handleSubmit,
@@ -23,40 +24,31 @@ const FormGenerator = (props: FormProps) => {
     watch
   } = useForm();
 
-  const fieldWatched = watch();
-
-  const onSubmit = (data: any) => {
-    data = { ...fieldWatched };
-    console.log(data);
-    props.onSubmit(data);
-    return data;
-  };
+  const fieldsWatched = watch();
+  const isValid = Object.keys(errors).length === 0;
 
   return (
-    <div className="container">
-      <form className="form" onSubmit={handleSubmit(onSubmit)}>
-        {props.formConfig.map((config: FormConfig) => (
-          <div key={config.name} className="form__group">
-            <input
-              type={config.type}
-              className={config.className}
-              placeholder={config.placeholder}
-              value={config.value}
-              {...register(config.name, config.validation)}
-            />
-            {errors[config.name]?.type === 'required' && (
-              <span role="alert">This field is required!</span>
-            )}
-            {errors[config.name]?.type === 'minLength' && (
-              <span role="alert">Password cannot be shorter than 8 characters!</span>
-            )}
-            {errors[config.name]?.type === 'maxLength' && (
-              <span role="alert">Password cannot be longer than 20 characters!</span>
-            )}
-          </div>
-        ))}
-      </form>
-    </div>
+    <form onSubmit={handleSubmit(() => onSubmit(fieldsWatched))} className="form-generator">
+      {formConfig.map((config: TConfig) => (
+        <div key={config.name} className="form-generator">
+          {errors[config.name] && <span className="input-error">This field is required</span>}
+          {config.type && (
+            <>
+              <label htmlFor={config.name}>{config.label}</label>
+              <input
+                disabled={config.disabled}
+                type={config.type}
+                placeholder={config.placeholder}
+                className={`w-100 input-field ${config.className}`}
+                value={config.value}
+                {...register(config.name, config.validation)}
+              />
+            </>
+          )}
+        </div>
+      ))}
+      <input type="submit" disabled={!isValid} className="form-button" value="Submit" />
+    </form>
   );
 };
 
