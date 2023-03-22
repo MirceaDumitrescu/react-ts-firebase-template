@@ -1,4 +1,5 @@
 import './App.css';
+import { SpinnerComponent } from './components/loadingSpinner/Spinner';
 import Login from './pages/login/Login';
 import Register from './pages/register/Register';
 // import { useDispatch, useSelector } from 'react-redux';
@@ -14,6 +15,7 @@ import Register from './pages/register/Register';
 // }
 
 function App() {
+  const isLoading = true;
   // const globalState = useSelector((state: any) => state);
   // const dispatch = useDispatch();
   // const [state, setState] = useState<GlobalState>({
@@ -37,7 +39,9 @@ function App() {
   // useEffect(() => {
   //   setState(globalState.globalState);
   // }, [globalState]);
-
+  if (isLoading) {
+    return <SpinnerComponent variant="large" />;
+  }
   return (
     <div className="App">
       <Register />
