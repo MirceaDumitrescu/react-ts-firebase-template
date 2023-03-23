@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 import { SpinnerComponent } from './components/loadingSpinner/Spinner';
 
 function App() {

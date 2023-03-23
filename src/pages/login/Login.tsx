@@ -20,7 +20,7 @@ const Login = () => {
   const googleAuth = async () => {
     dispatch(signInWithGoogle());
   };
-  
+
   const { isLoading, isLoggedIn, hasError, loginData } = useSelector((state: any) => state.user);
 
   console.log(loginData);
