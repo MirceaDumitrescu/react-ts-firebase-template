@@ -3,14 +3,18 @@ import { LoginUserData } from '../../../pages/login/Login';
 import { RegisterUserData } from '../../../pages/register/Register';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../../api/firebase/firebase';
+import { TLoginData, TUser } from './authSlice';
 
 export const signInUser = createAsyncThunk(
   'authService/signInUser',
-  async (data: LoginUserData): Promise<Partial<any> | void> => {
-    const userData = { user: {}, isLoggedIn: false };
+  async (data: LoginUserData): Promise<Partial<TLoginData>> => {
+    const userData = {
+      loginData: {} as TUser,
+      isLoggedIn: false as boolean
+    };
     await signInWithEmailAndPassword(auth, data.email, data.password)
       .then((userCredential) => {
-        userData.user = {
+        userData.loginData = {
           email: userCredential.user.email,
           uid: userCredential.user.uid,
           displayName: userCredential.user.displayName,

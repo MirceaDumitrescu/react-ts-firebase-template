@@ -16,10 +16,23 @@ const Login = () => {
     dispatch(signInUser(data));
   };
 
-  const userData = useSelector((state: any) => state.user.loginData);
+  const { isLoading, isLoggedIn, hasError, loginData } = useSelector((state: any) => state.user);
 
-  if (userData) {
-    console.log(userData);
+  console.log(loginData);
+  if (isLoggedIn) {
+    return <div>Logged in</div>;
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (hasError) {
+    return <div>Error</div>;
+  }
+
+  if (loginData.email) {
+    return <div>Logged in</div>;
   }
 
   return (
