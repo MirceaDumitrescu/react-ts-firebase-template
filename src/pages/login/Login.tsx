@@ -3,7 +3,7 @@ import { loginFormConfig } from './login.config';
 import { signInUser } from '../../store/slices/users/authService';
 import { useAppDispatch } from '../../hooks/global';
 import { useSelector } from 'react-redux';
-import {signInWithGoogle} from '../../store/slices/users/authService';
+import { signInWithGoogle } from '../../store/slices/users/authService';
 
 export interface LoginUserData {
   email: string;
@@ -18,8 +18,8 @@ const Login = () => {
   };
 
   const googleAuth = async () => {
-    dispatch(signInWithGoogle())
-  }
+    dispatch(signInWithGoogle());
+  };
 
   // const userData = useSelector((state: any) => state.user.loginData);
 

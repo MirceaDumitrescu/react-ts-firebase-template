@@ -40,17 +40,19 @@ const slice = createSlice({
       state.isLoading = true;
     });
 
-    builder.addCase(signInWithGoogle.fulfilled, (state: Partial<any>, action: PayloadAction<any>) => {
-      state.isLoading = false;
-      state.isLoggedIn = action.payload.isLoggedIn;
-      state.loginData = action.payload.user;
-    });
+    builder.addCase(
+      signInWithGoogle.fulfilled,
+      (state: Partial<any>, action: PayloadAction<any>) => {
+        state.isLoading = false;
+        state.isLoggedIn = action.payload.isLoggedIn;
+        state.loginData = action.payload.user;
+      }
+    );
 
     builder.addCase(signInWithGoogle.rejected, (state: Partial<any>, _) => {
       state.hasError = true;
       state.isLoading = false;
     });
-
   }
 });
 
