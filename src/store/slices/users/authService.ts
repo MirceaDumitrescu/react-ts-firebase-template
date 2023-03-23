@@ -6,15 +6,18 @@ import { auth, provider } from '../../../api/firebase/firebase';
 import { storeUser } from './storeUser';
 import { create } from 'react-test-renderer';
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { TLoginData, TUser } from './authSlice';
 
 export const signInUser = createAsyncThunk(
   'authService/signInUser',
-  async (data: LoginUserData): Promise<Partial<any> | void> => {
-    const userData = { user: {}, isLoggedIn: false };
+  async (data: LoginUserData): Promise<Partial<TLoginData>> => {
+    const userData = {
+      loginData: {} as TUser,
+      isLoggedIn: false as boolean
+    };
     await signInWithEmailAndPassword(auth, data.email, data.password)
       .then((userCredential) => {
-        console.log(userCredential);
-        userData.user = {
+        userData.loginData = {
           email: userCredential.user.email,
           uid: userCredential.user.uid,
           displayName: userCredential.user.displayName,
