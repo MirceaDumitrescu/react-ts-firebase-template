@@ -1,9 +1,8 @@
 import FormGenerator from '../../components/formGenerator/FormGenerator';
 import { loginFormConfig } from './login.config';
-import { signInUser,signInWithGoogle } from '../../store/slices/users/authService';
+import { signInUser, signInWithGoogle } from '../../store/slices/users/authService';
 import { useAppDispatch } from '../../hooks/global';
 import { useSelector } from 'react-redux';
-
 
 export interface LoginUserData {
   email: string;
@@ -17,9 +16,9 @@ const Login = () => {
     dispatch(signInUser(data));
   };
 
-  const handleGoogleSignIn = async (data: any ) => {
-dispatch(signInWithGoogle(data));
-  }
+  const handleGoogleSignIn = async (data: any) => {
+    dispatch(signInWithGoogle(data));
+  };
 
   const { isLoading, isLoggedIn, hasError, loginData } = useSelector((state: any) => state.user);
 
@@ -43,7 +42,7 @@ dispatch(signInWithGoogle(data));
   return (
     <div>
       <FormGenerator formConfig={loginFormConfig} onSubmit={handleOnSubmit} />
-      <button onClick = {handleGoogleSignIn}>Sign in with Google</button>
+      <button onClick={handleGoogleSignIn}>Sign in with Google</button>
     </div>
   );
 };

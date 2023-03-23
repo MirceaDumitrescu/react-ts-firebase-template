@@ -28,8 +28,7 @@ export const signInUser = createAsyncThunk(
           role: 'user',
           auth: 'email'
         };
-        userData.isLoggedIn = true; 
-        
+        userData.isLoggedIn = true;
       })
       .catch((error) => {
         console.log(error.message);
@@ -39,39 +38,39 @@ export const signInUser = createAsyncThunk(
 );
 
 export const signInWithGoogle = createAsyncThunk(
-  'authService/signInWithGoogle', 
-  async (data: LoginUserData): Promise<Partial<TLoginData>>  => {
+  'authService/signInWithGoogle',
+  async (data: LoginUserData): Promise<Partial<TLoginData>> => {
     const userDataGoogle = {
       loginData: {} as TUser,
       isLoggedIn: false as boolean
-    }
-  await signInWithPopup(auth, provider)
-  .then((result:any) => {
-    const credential:any = GoogleAuthProvider.credentialFromResult(result);
-    const user = result.user;
-    const splitName = user.displayName.split(' ');
-    userDataGoogle.loginData = {
-      email: user.email,
-      uid: user.uid, 
-      firstName: splitName[0],
-      lastName: splitName[1],
-      role: 'user',
-      auth:'google',
-      emailVerified:user.emailVerified,
-      phoneNumber:user.phoneNumber,
-      photoURL:user.photoURL,
-    }
-    userDataGoogle.isLoggedIn = true;
-    setUser(user.uid, userDataGoogle);
-    console.log(userDataGoogle)
+    };
+    await signInWithPopup(auth, provider)
+      .then((result: any) => {
+        const credential: any = GoogleAuthProvider.credentialFromResult(result);
+        const user = result.user;
+        const splitName = user.displayName.split(' ');
+        userDataGoogle.loginData = {
+          email: user.email,
+          uid: user.uid,
+          firstName: splitName[0],
+          lastName: splitName[1],
+          role: 'user',
+          auth: 'google',
+          emailVerified: user.emailVerified,
+          phoneNumber: user.phoneNumber,
+          photoURL: user.photoURL
+        };
+        userDataGoogle.isLoggedIn = true;
+        setUser(user.uid, userDataGoogle);
+        console.log(userDataGoogle);
+        return userDataGoogle;
+      })
+      .catch((error: any) => {
+        console.log(error.message);
+      });
     return userDataGoogle;
-  }).catch((error:any) => {
-     console.log(error.message)
- 
-  });
-  return userDataGoogle
-}
-)
+  }
+);
 
 export const registerUser = createAsyncThunk(
   'authService/registerUser',
@@ -79,7 +78,7 @@ export const registerUser = createAsyncThunk(
     const userDataEmail = {
       loginData: {} as TUser,
       isLoggedIn: false as boolean
-    }
+    };
     await createUserWithEmailAndPassword(auth, formData.email, formData.password)
       .then((userCredential) => {
         userDataEmail.loginData = {
@@ -90,9 +89,9 @@ export const registerUser = createAsyncThunk(
           photoURL: userCredential.user.photoURL,
           firstName: formData.firstName,
           lastName: formData.lastName,
-          role:'user',
+          role: 'user',
           auth: 'email'
-        }
+        };
         userDataEmail.isLoggedIn = true;
         setUser(userCredential.user.uid, userDataEmail);
         return userDataEmail;

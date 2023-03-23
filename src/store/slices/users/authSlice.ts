@@ -15,7 +15,6 @@ export interface TUser {
   auth: string;
 }
 
-
 export interface TLoginData {
   loginData: TUser;
   isLoggedIn: boolean;
@@ -69,7 +68,6 @@ const slice = createSlice({
       state.hasError = true;
       state.isLoading = false;
     });
-
   }
 });
 
