@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 import Login from './pages/login/Login';
 import Register from './pages/register/Register';
 // import { useDispatch, useSelector } from 'react-redux';
@@ -40,7 +40,7 @@ function App() {
 
   return (
     <div className="App">
-      <Register />
+      <Login />
     </div>
   );
 }

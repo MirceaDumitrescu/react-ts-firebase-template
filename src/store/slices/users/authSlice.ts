@@ -1,4 +1,4 @@
-import { signInUser } from './authService';
+import { signInUser, signInWithGoogle } from './authService';
 import { createSlice } from '@reduxjs/toolkit';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { User } from 'firebase/auth';
@@ -35,6 +35,22 @@ const slice = createSlice({
       state.hasError = true;
       state.isLoading = false;
     });
+
+    builder.addCase(signInWithGoogle.pending, (state: Partial<any>, _) => {
+      state.isLoading = true;
+    });
+
+    builder.addCase(signInWithGoogle.fulfilled, (state: Partial<any>, action: PayloadAction<any>) => {
+      state.isLoading = false;
+      state.isLoggedIn = action.payload.isLoggedIn;
+      state.loginData = action.payload.user;
+    });
+
+    builder.addCase(signInWithGoogle.rejected, (state: Partial<any>, _) => {
+      state.hasError = true;
+      state.isLoading = false;
+    });
+
   }
 });
 
