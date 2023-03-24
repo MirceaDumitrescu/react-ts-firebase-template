@@ -35,6 +35,7 @@ const slice = createSlice({
         state.hasError = true;
         state.isLoading = false;
       });
+
   }
 });
 export default slice.reducer;

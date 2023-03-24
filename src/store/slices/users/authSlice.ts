@@ -1,16 +1,23 @@
-import { signInUser } from './authService';
+import { signInUser, signInWithGoogle } from './authService';
 import { createSlice } from '@reduxjs/toolkit';
 import { PayloadAction } from '@reduxjs/toolkit';
+import { RegisterUserData } from '../../../pages/register/Register';
 
 export interface TUser {
-  displayName: string | null;
   email: string | null;
   emailVerified: boolean;
-  isAnonymous: boolean;
-  phoneNumber: string | null;
-  photoURL: string | null;
+  phoneNumber?: string | null;
+  photoURL?: string | null;
   uid: string;
-  metadata: any;
+  firstName: string;
+  lastName: string;
+  role: string;
+  auth: string;
+}
+
+export interface TUserProfile extends TUser {
+  age?: number;
+  city?: string;
 }
 
 export interface TLoginData {
@@ -44,6 +51,25 @@ const slice = createSlice({
     );
 
     builder.addCase(signInUser.rejected, (state: Partial<any>, _) => {
+      state.hasError = true;
+      state.isLoading = false;
+    });
+
+    // Sign in with Google
+    builder.addCase(signInWithGoogle.pending, (state: Partial<TLoginData>, _) => {
+      state.isLoading = true;
+    });
+
+    builder.addCase(
+      signInWithGoogle.fulfilled,
+      (state: Partial<TLoginData>, action: PayloadAction<Partial<TLoginData>>) => {
+        state.isLoading = false;
+        state.isLoggedIn = action.payload.isLoggedIn;
+        state.loginData = action.payload.loginData;
+      }
+    );
+
+    builder.addCase(signInWithGoogle.rejected, (state: Partial<any>, _) => {
       state.hasError = true;
       state.isLoading = false;
     });
