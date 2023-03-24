@@ -4,35 +4,34 @@ import { RegisterUserData } from '../../../pages/register/Register';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, provider } from '../../../api/firebase/firebase';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { TLoginData, TUser } from './authSlice';
+import { TLoginData, TUser, TUserProfile } from './authSlice';
 import { writeUserInFirestore } from '../../../api/firebase/writeFirestore';
+import { fetchUserFirestore } from '../../../api/firebase/fetchFirestore';
 
 export const signInUser = createAsyncThunk(
   'authService/signInUser',
   async (data: LoginUserData): Promise<Partial<TLoginData>> => {
     const userData = {
-      loginData: {} as TUser,
+      loginData: {} as TUserProfile,
       isLoggedIn: false as boolean
     };
-    await signInWithEmailAndPassword(auth, data.email, data.password)
+    const result = await signInWithEmailAndPassword(auth, data.email, data.password)
       .then((userCredential) => {
-        const splitName = userCredential.user.displayName?.split(' ');
-        userData.loginData = {
-          email: userCredential.user.email,
-          uid: userCredential.user.uid,
-          photoURL: userCredential.user.photoURL,
-          phoneNumber: userCredential.user.phoneNumber,
-          emailVerified: userCredential.user.emailVerified,
-          firstName: splitName ? splitName[0] : '',
-          lastName: splitName ? splitName[1] : '',
-          role: 'user',
-          auth: 'email'
-        };
-        userData.isLoggedIn = true;
+        return userCredential;
       })
       .catch((error) => {
-        console.log(error.message);
+        console.error(error);
       });
+    if (result?.user) {
+      await fetchUserFirestore(result.user.uid)
+        .then((user: any) => {
+          userData.loginData = user.loginData;
+          userData.isLoggedIn = true;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
     return userData;
   }
 );
@@ -61,7 +60,7 @@ export const signInWithGoogle = createAsyncThunk(
           photoURL: user.photoURL
         };
         userDataGoogle.isLoggedIn = true;
-        writeUserInFirestore(user.uid, userDataGoogle);
+        writeUserInFirestore(user.uid, userDataGoogle.loginData);
         console.log(userDataGoogle);
         return userDataGoogle;
       })
@@ -93,7 +92,7 @@ export const registerUser = createAsyncThunk(
           auth: 'email'
         };
         userDataEmail.isLoggedIn = true;
-        writeUserInFirestore(userCredential.user.uid, userDataEmail);
+        writeUserInFirestore(userCredential.user.uid, userDataEmail.loginData);
         return userDataEmail;
       })
       .catch((error) => {

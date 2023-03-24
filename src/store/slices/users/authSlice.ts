@@ -15,6 +15,11 @@ export interface TUser {
   auth: string;
 }
 
+export interface TUserProfile extends TUser {
+  age?: number;
+  city?: string;
+}
+
 export interface TLoginData {
   loginData: TUser;
   isLoggedIn: boolean;
