@@ -16,8 +16,8 @@ const Login = () => {
     dispatch(signInUser(data));
   };
 
-  const handleGoogleSignIn = async (data: any) => {
-    dispatch(signInWithGoogle(data));
+  const handleGoogleSignIn = async () => {
+    dispatch(signInWithGoogle());
   };
 
   const { isLoading, isLoggedIn, hasError, loginData } = useSelector((state: any) => state.user);

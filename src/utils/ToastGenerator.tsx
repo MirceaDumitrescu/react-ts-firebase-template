@@ -21,17 +21,23 @@ const Toast = () => {
   );
 };
 
-export const successToast = (message: string) => {
-  toast.success(message);
+const success = (message: string) => {
+  toast.success(message, {
+    position: 'top-left'
+  });
 };
 
-export const errorToast = (message: string) => {
-  toast.error(message);
+const error = (message: string) => {
+  toast.error(message, {
+    position: 'top-left'
+  });
 };
 
-export const warningToast = (message: string) => {
-  toast.warning(message);
+const warning = (message: string) => {
+  toast.warning(message, {
+    position: 'top-left'
+  });
 };
 
 export default Toast;
-export const tst = { successToast, errorToast, warningToast };
+export const tst = { success, error, warning };

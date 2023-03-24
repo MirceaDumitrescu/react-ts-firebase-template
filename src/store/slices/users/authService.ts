@@ -1,12 +1,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { LoginUserData } from '../../../pages/login/Login';
 import { RegisterUserData } from '../../../pages/register/Register';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, User } from 'firebase/auth';
 import { auth, provider } from '../../../api/firebase/firebase';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { TLoginData, TUser, TUserProfile } from './authSlice';
 import { writeUserInFirestore } from '../../../api/firebase/writeFirestore';
 import { fetchUserFirestore } from '../../../api/firebase/fetchFirestore';
+import { DocumentData } from 'firebase/firestore';
+import { tst } from '../../../utils/ToastGenerator';
 
 export const signInUser = createAsyncThunk(
   'authService/signInUser',
@@ -24,9 +26,13 @@ export const signInUser = createAsyncThunk(
       });
     if (result?.user) {
       await fetchUserFirestore(result.user.uid)
-        .then((user: any) => {
-          userData.loginData = user.loginData;
-          userData.isLoggedIn = true;
+        .then((user: DocumentData | null) => {
+          if (user) {
+            userData.loginData = user?.loginData;
+            userData.isLoggedIn = true;
+            tst.success('Welcome back!');
+          }
+          tst.error('User not found');
         })
         .catch((error) => {
           console.error(error);
@@ -38,33 +44,36 @@ export const signInUser = createAsyncThunk(
 
 export const signInWithGoogle = createAsyncThunk(
   'authService/signInWithGoogle',
-  async (data: LoginUserData): Promise<Partial<TLoginData>> => {
+  async (): Promise<Partial<TLoginData>> => {
     const userDataGoogle = {
       loginData: {} as TUser,
       isLoggedIn: false as boolean
     };
     await signInWithPopup(auth, provider)
       .then((result: any) => {
-        const credential: any = GoogleAuthProvider.credentialFromResult(result);
+        // const credential: any = GoogleAuthProvider.credentialFromResult(result);
         const user = result.user;
-        const splitName = user.displayName.split(' ');
-        userDataGoogle.loginData = {
-          email: user.email,
-          uid: user.uid,
-          firstName: splitName[0],
-          lastName: splitName[1],
-          role: 'user',
-          auth: 'google',
-          emailVerified: user.emailVerified,
-          phoneNumber: user.phoneNumber,
-          photoURL: user.photoURL
-        };
-        userDataGoogle.isLoggedIn = true;
-        writeUserInFirestore(user.uid, userDataGoogle.loginData);
-        console.log(userDataGoogle);
+        if (user) {
+          const splitName = user.displayName.split(' ');
+          userDataGoogle.loginData = {
+            email: user.email,
+            uid: user.uid,
+            firstName: splitName[0],
+            lastName: splitName[1],
+            role: 'user',
+            auth: 'google',
+            emailVerified: user.emailVerified,
+            phoneNumber: user.phoneNumber,
+            photoURL: user.photoURL
+          };
+          userDataGoogle.isLoggedIn = true;
+          tst.success('Welcome back!');
+          writeUserInFirestore(user.uid, userDataGoogle.loginData);
+        }
         return userDataGoogle;
       })
-      .catch((error: any) => {
+      .catch((error) => {
+        tst.error('Something went wrong');
         console.log(error.message);
       });
     return userDataGoogle;

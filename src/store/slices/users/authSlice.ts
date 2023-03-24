@@ -1,7 +1,6 @@
 import { signInUser, signInWithGoogle } from './authService';
 import { createSlice } from '@reduxjs/toolkit';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { RegisterUserData } from '../../../pages/register/Register';
 
 export interface TUser {
   email: string | null;
@@ -50,7 +49,7 @@ const slice = createSlice({
       }
     );
 
-    builder.addCase(signInUser.rejected, (state: Partial<any>, _) => {
+    builder.addCase(signInUser.rejected, (state: Partial<TLoginData>, _) => {
       state.hasError = true;
       state.isLoading = false;
     });
