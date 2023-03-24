@@ -5,7 +5,7 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'fire
 import { auth, provider } from '../../../api/firebase/firebase';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { TLoginData, TUser } from './authSlice';
-import { setUser } from '../../../api/firebase/setData';
+import { writeUserInFirestore } from '../../../api/firebase/writeFirestore';
 
 export const signInUser = createAsyncThunk(
   'authService/signInUser',
@@ -61,7 +61,7 @@ export const signInWithGoogle = createAsyncThunk(
           photoURL: user.photoURL
         };
         userDataGoogle.isLoggedIn = true;
-        setUser(user.uid, userDataGoogle);
+        writeUserInFirestore(user.uid, userDataGoogle);
         console.log(userDataGoogle);
         return userDataGoogle;
       })
@@ -93,7 +93,7 @@ export const registerUser = createAsyncThunk(
           auth: 'email'
         };
         userDataEmail.isLoggedIn = true;
-        setUser(userCredential.user.uid, userDataEmail);
+        writeUserInFirestore(userCredential.user.uid, userDataEmail);
         return userDataEmail;
       })
       .catch((error) => {

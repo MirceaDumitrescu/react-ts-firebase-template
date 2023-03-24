@@ -8,7 +8,7 @@ export interface TUser {
   emailVerified: boolean;
   phoneNumber?: string | null;
   photoURL?: string | null;
-  uid: string;
+  uid: string ;
   firstName: string;
   lastName: string;
   role: string;
