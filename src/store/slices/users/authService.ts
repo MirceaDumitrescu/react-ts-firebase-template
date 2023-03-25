@@ -8,13 +8,25 @@ import {
   browserLocalPersistence
 } from 'firebase/auth';
 import { auth, provider } from '../../../api/firebase/firebase';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { signInWithPopup } from 'firebase/auth';
 import { TLoginData, TUser, TUserProfile } from './authSlice';
 import { writeUserInFirestore } from '../../../api/firebase/writeFirestore';
 import { fetchUserFirestore } from '../../../api/firebase/fetchFirestore';
-import { tst } from '../../../utils/ToastGenerator';
+import { createUserObject } from '../../../utils/utils';
 
 setPersistence(auth, browserLocalPersistence);
+
+export enum AuthProvider {
+  GOOGLE = 'google',
+  FACEBOOK = 'facebook',
+  TWITTER = 'twitter',
+  GITHUB = 'github'
+}
+
+export enum UserRoles {
+  ADMIN = 'admin',
+  USER = 'user'
+}
 
 export const signInUser = createAsyncThunk(
   'authService/signInUser',
@@ -24,13 +36,8 @@ export const signInUser = createAsyncThunk(
       isLoggedIn: false as boolean
     };
     try {
-      console.log('1');
       const result = await signInWithEmailAndPassword(auth, data.email, data.password);
-      console.log('2');
-      console.log('loginDatafromSignIn', userData);
       const user = await fetchUserFirestore(result.user.uid);
-      console.log('3');
-      console.log('loginDatafromDB', userData);
       userData.loginData = user?.loginData;
       userData.isLoggedIn = true;
     } catch (error) {
@@ -49,29 +56,16 @@ export const signInWithGoogle = createAsyncThunk(
     };
     await signInWithPopup(auth, provider)
       .then((result: any) => {
-        // const credential: any = GoogleAuthProvider.credentialFromResult(result);
         const user = result.user;
         if (user) {
           const splitName = user.displayName.split(' ');
-          userDataGoogle.loginData = {
-            email: user.email,
-            uid: user.uid,
-            firstName: splitName[0],
-            lastName: splitName[1],
-            role: 'user',
-            auth: 'google',
-            emailVerified: user.emailVerified,
-            phoneNumber: user.phoneNumber,
-            photoURL: user.photoURL
-          };
+          userDataGoogle.loginData = createUserObject(user, splitName[0], splitName[1]);
           userDataGoogle.isLoggedIn = true;
-          tst.success('Welcome back!');
           writeUserInFirestore(user.uid, userDataGoogle.loginData);
         }
         return userDataGoogle;
       })
       .catch((error) => {
-        tst.error('Something went wrong');
         console.log(error.message);
       });
     return userDataGoogle;
@@ -88,17 +82,11 @@ export const registerUser = createAsyncThunk(
     try {
       const result = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
 
-      userDataEmail.loginData = {
-        email: result.user.email,
-        uid: result.user.uid,
-        emailVerified: result.user.emailVerified,
-        phoneNumber: result.user.phoneNumber,
-        photoURL: result.user.photoURL,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        role: 'user',
-        auth: 'email'
-      };
+      userDataEmail.loginData = createUserObject(
+        result.user,
+        formData.firstName,
+        formData.lastName
+      );
 
       userDataEmail.isLoggedIn = true;
 
