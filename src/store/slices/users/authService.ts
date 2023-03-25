@@ -12,7 +12,6 @@ import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { TLoginData, TUser, TUserProfile } from './authSlice';
 import { writeUserInFirestore } from '../../../api/firebase/writeFirestore';
 import { fetchUserFirestore } from '../../../api/firebase/fetchFirestore';
-import { DocumentData } from 'firebase/firestore';
 import { tst } from '../../../utils/ToastGenerator';
 
 setPersistence(auth, browserLocalPersistence);
@@ -24,22 +23,15 @@ export const signInUser = createAsyncThunk(
       loginData: {} as TUserProfile,
       isLoggedIn: false as boolean
     };
-    const result = await signInWithEmailAndPassword(auth, data.email, data.password);
-    console.log('result', result);
-    if (result?.user) {
-      await fetchUserFirestore(result.user.uid)
-        .then((user: DocumentData | null) => {
-          if (user) {
-            userData.loginData = user?.loginData;
-            userData.isLoggedIn = true;
-            tst.success('Welcome back!');
-            return;
-          }
-          tst.error('User not found');
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+    try {
+      const result = await signInWithEmailAndPassword(auth, data.email, data.password);
+      const user = await fetchUserFirestore(result.user.uid);
+      userData.loginData = user?.loginData;
+      userData.isLoggedIn = true;
+      tst.success('Welcome back!');
+    } catch (error) {
+      tst.error('Something went wrong');
+      console.error(error);
     }
     return userData;
   }
@@ -113,5 +105,23 @@ export const registerUser = createAsyncThunk(
     }
 
     return userDataEmail;
+  }
+);
+
+export const logoutUser = createAsyncThunk(
+  'authService/logoutUser',
+  async (): Promise<Partial<TLoginData>> => {
+    const userData = {
+      loginData: {} as TUser,
+      isLoggedIn: false as boolean
+    };
+    try {
+      await auth.signOut();
+      userData.isLoggedIn = false;
+      userData.loginData = {} as TUser;
+    } catch (error) {
+      console.error(error);
+    }
+    return userData;
   }
 );

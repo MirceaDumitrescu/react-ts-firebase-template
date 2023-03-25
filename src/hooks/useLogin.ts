@@ -3,13 +3,12 @@ import { auth } from '../api/firebase/firebase';
 import { TUserProfile } from '../store/slices/users/authSlice';
 
 const useLogin = () => {
-  const [authenticated, setAuthenticated] = useState(false);
+  const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<TUserProfile | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user: any) => {
-      console.log('user', user);
       if (user) {
         setUser(user);
         setAuthenticated(true);

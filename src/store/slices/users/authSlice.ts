@@ -34,7 +34,13 @@ const slice = createSlice({
     isLoading: false,
     hasError: false
   },
-  reducers: {},
+  reducers: {
+    setLoginData(state: Partial<TLoginData>, action: PayloadAction<Partial<TLoginData>>) {
+      state.loginData = action.payload.loginData;
+      state.isLoggedIn = action.payload.isLoggedIn;
+      state.isLoading = action.payload.isLoading;
+    }
+  },
   extraReducers(builder) {
     builder.addCase(signInUser.pending, (state: Partial<TLoginData>, _) => {
       state.isLoading = true;
@@ -76,3 +82,4 @@ const slice = createSlice({
 });
 
 export default slice.reducer;
+export const { setLoginData } = slice.actions;

@@ -1,6 +1,6 @@
 import FormGenerator from '../../components/formGenerator/FormGenerator';
 import { loginFormConfig } from './login.config';
-import { signInUser, signInWithGoogle } from '../../store/slices/users/authService';
+import { logoutUser, signInUser, signInWithGoogle } from '../../store/slices/users/authService';
 import { useAppDispatch } from '../../hooks/global';
 import { useSelector } from 'react-redux';
 import useAuth from '../../hooks/useLogin';
@@ -11,7 +11,7 @@ export interface LoginUserData {
 
 const Login = () => {
   const dispatch = useAppDispatch();
-  const { authenticated, user, loading } = useAuth();
+  const { authenticated, loading } = useAuth();
 
   const handleOnSubmit = async (data: LoginUserData) => {
     dispatch(signInUser(data));
@@ -21,10 +21,19 @@ const Login = () => {
     dispatch(signInWithGoogle());
   };
 
+  const handleLogout = () => {
+    dispatch(logoutUser());
+  };
+
   const { hasError } = useSelector((state: any) => state.user);
 
   if (authenticated) {
-    return <div>Logged in</div>;
+    return (
+      <div>
+        <p>Logged in</p>
+        <button onClick={handleLogout}>Logout</button>
+      </div>
+    );
   }
 
   if (loading) {
@@ -33,10 +42,6 @@ const Login = () => {
 
   if (hasError) {
     return <div>Error</div>;
-  }
-
-  if (user?.email) {
-    return <div>Logged in</div>;
   }
 
   return (
