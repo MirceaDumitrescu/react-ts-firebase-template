@@ -29,7 +29,7 @@ export const fetchSignedInUserData = createAsyncThunk(
       onAuthStateChanged(auth, (user) => {
         if (user) {
           data.push(user);
-          console.log(data)
+          console.log(data);
         } else {
           console.log('User is not signed in');
         }
@@ -41,4 +41,3 @@ export const fetchSignedInUserData = createAsyncThunk(
     return data;
   }
 );
-

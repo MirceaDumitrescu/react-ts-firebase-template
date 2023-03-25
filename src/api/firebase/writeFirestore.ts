@@ -5,8 +5,8 @@ import { fetchUserFirestore } from './fetchFirestore';
 
 export const writeUserInFirestore = async (uid: string, data: TUserProfile) => {
   const user = await fetchUserFirestore(uid);
-if (user?.uid){
- return;
-}
+  if (user?.uid) {
+    return;
+  }
   await setDoc(doc(db, 'users', uid), data);
 };
