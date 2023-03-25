@@ -10,7 +10,7 @@ const Protected: React.FC<ProtectedProps> = ({ component: Component, ...routePro
   const [loading, isAdmin] = useAdminCheck();
 
   if (!isAdmin) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
 
   return <Fragment>{loading === false ? <Component {...routeProps} /> : null}</Fragment>;

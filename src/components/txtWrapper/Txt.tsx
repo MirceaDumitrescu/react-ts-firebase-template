@@ -7,7 +7,7 @@ interface Props
   as?: 'div' | 'span' | 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   variant?: 'text-small' | 'text-large' | 'heading-small' | 'heading-large';
   children?: React.ReactNode;
-  className?: string;
+  className: string;
 }
 
 const Txt: FC<Props> = ({
