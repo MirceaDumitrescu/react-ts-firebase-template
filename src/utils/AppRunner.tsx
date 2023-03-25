@@ -9,6 +9,14 @@ const AppRunner = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const { authenticated, user, loading } = useLogin();
 
+  /*
+   * After the user logs in we need
+   * to store the data to the redux state.
+   * This function is called if the user
+   * is being logged it behind the scenes
+   * via session/token id and the login function
+   * is not triggered.
+   */
   const getUserData = async (uid: string) => {
     const userProfile = await fetchUserFirestore(uid);
     if (userProfile) {
@@ -25,6 +33,9 @@ const AppRunner = (): JSX.Element => {
   useEffect(() => {
     dispatch(fetchUserArray());
     if (user?.uid) {
+      /* After the user logs and in and user object is populated
+       * store it in the redux state aswell
+       */
       getUserData(user.uid);
     }
   }, [user?.uid]);

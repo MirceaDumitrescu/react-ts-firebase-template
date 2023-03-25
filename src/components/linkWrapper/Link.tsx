@@ -1,17 +1,17 @@
-const Link = ({
-  className,
+const LinkWrapper = ({
+  variant = 'blue',
   url,
   children
 }: {
-  className: string;
+  variant?: 'blue' | 'red';
   url: string;
   children: string | React.ReactNode;
 }) => {
   return (
-    <a className={className} href={url} rel="noopener noreferrer" target="_blank">
+    <a className={variant} href={url} rel="noopener noreferrer" target="_blank">
       {children}
     </a>
   );
 };
 
-export default Link;
+export default LinkWrapper;

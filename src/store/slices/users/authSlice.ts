@@ -29,7 +29,7 @@ export interface TLoginData {
 const slice = createSlice({
   name: 'user',
   initialState: {
-    loginData: {} as TUser,
+    loginData: {} as TUserProfile,
     isLoggedIn: false,
     isLoading: false,
     hasError: false
@@ -49,9 +49,10 @@ const slice = createSlice({
     builder.addCase(
       signInUser.fulfilled,
       (state: Partial<TLoginData>, action: PayloadAction<Partial<TLoginData>>) => {
-        state.isLoading = false;
         state.isLoggedIn = action.payload.isLoggedIn;
+        console.log('action.payload.loginData', action.payload.loginData);
         state.loginData = action.payload.loginData;
+        state.isLoading = false;
       }
     );
 

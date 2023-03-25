@@ -23,19 +23,19 @@ const Toast = () => {
 
 const success = (message: string) => {
   toast.success(message, {
-    position: 'top-left'
+    position: 'top-right'
   });
 };
 
 const error = (message: string) => {
   toast.error(message, {
-    position: 'top-left'
+    position: 'top-right'
   });
 };
 
 const warning = (message: string) => {
   toast.warning(message, {
-    position: 'top-left'
+    position: 'top-right'
   });
 };
 

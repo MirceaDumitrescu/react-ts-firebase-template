@@ -4,6 +4,10 @@ import { logoutUser, signInUser, signInWithGoogle } from '../../store/slices/use
 import { useAppDispatch } from '../../hooks/global';
 import { useSelector } from 'react-redux';
 import useAuth from '../../hooks/useLogin';
+import { SpinnerComponent } from '../../components/loadingSpinner/Spinner';
+import LinkWrapper from '../../components/linkWrapper/Link';
+import ConditionalRendering from '../../components/conditionalRendering/ConditionalRendering';
+
 export interface LoginUserData {
   email: string;
   password: string;
@@ -25,23 +29,28 @@ const Login = () => {
     dispatch(logoutUser());
   };
 
-  const { hasError } = useSelector((state: any) => state.user);
+  const { hasError, loginData, isLoading } = useSelector((state: any) => state.user);
+
+  if (loading || isLoading) {
+    return <SpinnerComponent variant="large" />;
+  }
+
+  if (hasError) {
+    return <div>Error</div>;
+  }
 
   if (authenticated) {
     return (
       <div>
         <p>Logged in</p>
         <button onClick={handleLogout}>Logout</button>
+        {loginData.role && <p>Role: {loginData.role}</p>}
+        <LinkWrapper url="/admin/dashboard">Dashboard</LinkWrapper>
+        <ConditionalRendering condition={loginData.role === 'admin'}>
+          <p> Admin only content</p>
+        </ConditionalRendering>
       </div>
     );
-  }
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (hasError) {
-    return <div>Error</div>;
   }
 
   return (

@@ -24,13 +24,16 @@ export const signInUser = createAsyncThunk(
       isLoggedIn: false as boolean
     };
     try {
+      console.log('1');
       const result = await signInWithEmailAndPassword(auth, data.email, data.password);
+      console.log('2');
+      console.log('loginDatafromSignIn', userData);
       const user = await fetchUserFirestore(result.user.uid);
+      console.log('3');
+      console.log('loginDatafromDB', userData);
       userData.loginData = user?.loginData;
       userData.isLoggedIn = true;
-      tst.success('Welcome back!');
     } catch (error) {
-      tst.error('Something went wrong');
       console.error(error);
     }
     return userData;

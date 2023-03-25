@@ -11,8 +11,8 @@ type Props = {
 };
 
 const reducer = combineReducers({
-  users: usersReducer,
-  user: authReducer
+  users: usersReducer, // Represents all the users from database
+  user: authReducer // Represents the logged in user profile data
 });
 
 export const store = configureStore({
