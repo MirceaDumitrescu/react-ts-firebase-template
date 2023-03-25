@@ -1,7 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { LoginUserData } from '../../../pages/login/Login';
 import { RegisterUserData } from '../../../pages/register/Register';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, User } from 'firebase/auth';
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  setPersistence,
+  browserLocalPersistence
+} from 'firebase/auth';
 import { auth, provider } from '../../../api/firebase/firebase';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { TLoginData, TUser, TUserProfile } from './authSlice';
@@ -10,6 +15,8 @@ import { fetchUserFirestore } from '../../../api/firebase/fetchFirestore';
 import { DocumentData } from 'firebase/firestore';
 import { tst } from '../../../utils/ToastGenerator';
 
+setPersistence(auth, browserLocalPersistence);
+
 export const signInUser = createAsyncThunk(
   'authService/signInUser',
   async (data: LoginUserData): Promise<Partial<TLoginData>> => {
@@ -17,13 +24,8 @@ export const signInUser = createAsyncThunk(
       loginData: {} as TUserProfile,
       isLoggedIn: false as boolean
     };
-    const result = await signInWithEmailAndPassword(auth, data.email, data.password)
-      .then((userCredential) => {
-        return userCredential;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    const result = await signInWithEmailAndPassword(auth, data.email, data.password);
+    console.log('result', result);
     if (result?.user) {
       await fetchUserFirestore(result.user.uid)
         .then((user: DocumentData | null) => {
@@ -31,6 +33,7 @@ export const signInUser = createAsyncThunk(
             userData.loginData = user?.loginData;
             userData.isLoggedIn = true;
             tst.success('Welcome back!');
+            return;
           }
           tst.error('User not found');
         })
@@ -87,26 +90,28 @@ export const registerUser = createAsyncThunk(
       loginData: {} as TUser,
       isLoggedIn: false as boolean
     };
-    await createUserWithEmailAndPassword(auth, formData.email, formData.password)
-      .then((userCredential) => {
-        userDataEmail.loginData = {
-          email: userCredential.user.email,
-          uid: userCredential.user.uid,
-          emailVerified: userCredential.user.emailVerified,
-          phoneNumber: userCredential.user.phoneNumber,
-          photoURL: userCredential.user.photoURL,
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          role: 'user',
-          auth: 'email'
-        };
-        userDataEmail.isLoggedIn = true;
-        writeUserInFirestore(userCredential.user.uid, userDataEmail.loginData);
-        return userDataEmail;
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    try {
+      const result = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+
+      userDataEmail.loginData = {
+        email: result.user.email,
+        uid: result.user.uid,
+        emailVerified: result.user.emailVerified,
+        phoneNumber: result.user.phoneNumber,
+        photoURL: result.user.photoURL,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        role: 'user',
+        auth: 'email'
+      };
+
+      userDataEmail.isLoggedIn = true;
+
+      writeUserInFirestore(result.user.uid, userDataEmail.loginData);
+    } catch (error) {
+      console.error(error);
+    }
+
     return userDataEmail;
   }
 );
